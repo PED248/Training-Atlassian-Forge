@@ -1,0 +1,42 @@
+modules:
+  trigger:
+    - key: issue-created-event
+      function: run
+      events:
+        - avi:jira:created:issue 
+  webtrigger:
+    - key: my-web-trigger
+      function: run
+  jira:issuePanel:
+    - key: autocomplete-hello-world-panel
+      resource: main
+      resolver:
+        function: resolver
+      viewportSize: large
+      title: AutoComplete
+      icon: https://developer.atlassian.com/platform/forge/images/issue-panel-icon.svg
+  function:
+    - key: resolver
+      handler: index.handler
+    - key: run
+      handler: index.run
+resources:
+  - key: main  # Define el recurso "main" aquí
+    path: static/issue-panel/build
+permissions:
+  scopes:
+    - read:jira-user
+    - read:jira-work
+    - write:jira-work
+    - manage:jira-configuration
+    - manage:jira-project  
+  external:
+    fetch:  
+      backend:
+        - "https://api.openai.com/**"
+  content:
+    styles:
+      - 'unsafe-inline'
+
+app:
+  id: ari:cloud:ecosystem::app/c0f0ba0b-8ebc-46b4-8cb5-3a35dafcab48
